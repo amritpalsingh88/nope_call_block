@@ -65,27 +65,34 @@ public class BlockActivity extends AppCompatActivity {
             }
         }
 
-        blockedNumberPrefs=getSharedPreferences("NOPPE_CALL_BLOCKING_PREFFS", Context.MODE_PRIVATE);
+        findViewById(R.id.btnCallReciever).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                blockedNumberPrefs=getSharedPreferences("NOPPE_CALL_BLOCKING_PREFFS", Context.MODE_PRIVATE);
 
-        Toast.makeText(this, blockedNumberPrefs.getString("blocked_list", ""),  Toast.LENGTH_LONG).show();
+                Toast.makeText(BlockActivity.this, "list: "+blockedNumberPrefs.getString("blocked_list", ""),  Toast.LENGTH_LONG).show();
 
-    }
+            }
+        });
 
-
-
-
-
-
-
-    public void callBlockScreen(View view) {
-
-        PhoneCallReceiver receiver = new PhoneCallReceiver();
-
-        receiver.registerReciever(BlockActivity.this);
-
-        //startActivity(new Intent(this, BlockActivity.class));
 
     }
+
+
+
+
+
+
+
+//    public void callBlockScreen(View view) {
+//
+//        PhoneCallReceiver receiver = new PhoneCallReceiver();
+//
+//        receiver.registerReciever(BlockActivity.this);
+//
+//        //startActivity(new Intent(this, BlockActivity.class));
+//
+//    }
 
 
 
