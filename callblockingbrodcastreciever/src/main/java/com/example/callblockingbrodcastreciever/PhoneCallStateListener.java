@@ -10,30 +10,50 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class PhoneCallStateListener extends PhoneStateListener {
 
     private Context context;
+    private SharedPreferences prefs;
+    private SharedPreferences blockedNumberPrefs;
+
     public PhoneCallStateListener(Context context){
         this.context = context;
     }
 
+    private boolean isFirst=true;
 
     @Override
     public void onCallStateChanged(int state, String incomingNumber) {
-        SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(context);
+        //AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        blockedNumberPrefs=context.getSharedPreferences("NOPPE_CALL_BLOCKING_PREFFS", MODE_PRIVATE);
+
 
         switch (state) {
+            case TelephonyManager.CALL_STATE_IDLE:
+                Log.e( "onCallStateChanged: ", "CALL_STATE_IDLE");
+                //audioManager.setStreamVolume(AudioManager.STREAM_RING, prefs.getInt("current_volume", 0), 0);
+                prefs.edit().putBoolean("is_first", true).apply();
+                break;
 
             case TelephonyManager.CALL_STATE_RINGING:
-
+                Log.e( "onCallStateChanged: ", "CALL_STATE_RINGING");
                 //Toast.makeText(context, "Call from :"+incomingNumber, Toast.LENGTH_LONG).show();
                 //String block_number = prefs.getString("block_number", null);
-                String block_number = "5219";
-                AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+
+                if(prefs.getBoolean("is_first", true)){
+                    //prefs.edit().putInt("current_volume", audioManager.getStreamVolume(AudioManager.STREAM_RING)).apply();
+                    prefs.edit().putBoolean("is_first", false).apply();
+                }
                 //Turn ON the mute
                 TelephonyManager telephonyManager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
                 try {
@@ -41,10 +61,9 @@ public class PhoneCallStateListener extends PhoneStateListener {
                     Method method = clazz.getDeclaredMethod("getITelephony");
                     method.setAccessible(true);
                     //Checking incoming call number
-                    System.out.println("Call "+block_number);
                     ITelephony telephonyService;
-                    if (incomingNumber.contains(block_number)) {
-                        audioManager.setStreamMute(AudioManager.STREAM_RING, true);
+                    if (containsBlockedNumber(context, incomingNumber)) {
+                        //audioManager.setStreamVolume(AudioManager.STREAM_RING, 0, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
                         Log.e( "contains: ", true+"");
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                             TelecomManager tm = (TelecomManager) context.getSystemService(Context.TELECOM_SERVICE);
@@ -63,11 +82,10 @@ public class PhoneCallStateListener extends PhoneStateListener {
                         else {
                             telephonyService = (ITelephony) method.invoke(telephonyManager);
                             telephonyService.silenceRinger();
-                            System.out.println(" in  " + block_number);
                             telephonyService.endCall();
                         }
 
-                        Toast.makeText(context, "Blocked: "+ block_number , Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Blocked: "+ incomingNumber , Toast.LENGTH_LONG).show();
                     }
                 } catch (Exception e) {
                     Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
@@ -77,7 +95,16 @@ public class PhoneCallStateListener extends PhoneStateListener {
                 //audioManager.setStreamMute(AudioManager.STREAM_RING, false);
                 break;
             case PhoneStateListener.LISTEN_CALL_STATE:
-
         }
         super.onCallStateChanged(state, incomingNumber);
-    }}
+    }
+
+    private boolean containsBlockedNumber(Context context, String number) {
+        ArrayList<String> list=new Gson().fromJson( blockedNumberPrefs.getString("blocked_list", ""), new TypeToken<ArrayList<String>>(){}.getType());
+        if(list.contains(number))
+            return true;
+        else
+            return false;
+    }
+
+}
