@@ -65,7 +65,7 @@ public class BlockActivity extends AppCompatActivity {
             }
         }
 
-        blockedNumberPrefs=getSharedPreferences("NOPPE_CALL_BLOCKING_PREFFS", Context.MODE_WORLD_READABLE);
+        blockedNumberPrefs=getSharedPreferences("NOPPE_CALL_BLOCKING_PREFFS", Context.MODE_PRIVATE);
 
         Toast.makeText(this, blockedNumberPrefs.getString("blocked_list", ""),  Toast.LENGTH_LONG).show();
 
