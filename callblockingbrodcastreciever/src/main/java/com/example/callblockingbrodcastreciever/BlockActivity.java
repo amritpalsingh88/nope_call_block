@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -26,6 +27,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BlockActivity extends AppCompatActivity {
+
+    private SharedPreferences blockedNumberPrefs;
 
     public List<Intent> POWERMANAGER_INTENTS = Arrays.asList(
             new Intent().setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity")),
@@ -62,6 +65,9 @@ public class BlockActivity extends AppCompatActivity {
             }
         }
 
+        blockedNumberPrefs=getSharedPreferences("NOPPE_CALL_BLOCKING_PREFFS", Context.MODE_WORLD_READABLE);
+
+        Toast.makeText(this, blockedNumberPrefs.getString("blocked_list", ""),  Toast.LENGTH_LONG).show();
 
     }
 

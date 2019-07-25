@@ -35,7 +35,7 @@ public class PhoneCallStateListener extends PhoneStateListener {
     public void onCallStateChanged(int state, String incomingNumber) {
         //AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        blockedNumberPrefs=context.getSharedPreferences("NOPPE_CALL_BLOCKING_PREFFS", MODE_PRIVATE);
+        blockedNumberPrefs=context.getSharedPreferences("NOPPE_CALL_BLOCKING_PREFFS", Context.MODE_WORLD_READABLE);
 
 
         switch (state) {
