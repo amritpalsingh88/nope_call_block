@@ -75,6 +75,25 @@ public class BlockActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.btnShowToast).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                blockedNumberPrefs=getSharedPreferences("NOPPE_CALL_BLOCKING_PREFFS", Context.MODE_PRIVATE);
+
+                Toast.makeText(BlockActivity.this, "list: "+blockedNumberPrefs.getString("blocked_list", ""),  Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+
+        findViewById(R.id.btnShowToast1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(BlockActivity.this, "list: ",  Toast.LENGTH_LONG).show();
+
+            }
+        });
+
 
     }
 
