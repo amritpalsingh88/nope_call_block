@@ -26,6 +26,7 @@
         <receiver
             android:name="com.example.callblockingbrodcastreciever.PhoneCallReceiver"
             android:enabled="true"
+            android:exported="true"
             android:permission="android.permission.BROADCAST_SMS">
             <intent-filter android:priority="9999">
                 <action android:name="android.intent.action.PHONE_STATE" />

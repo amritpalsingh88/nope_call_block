@@ -2,7 +2,6 @@ package com.example.callblockingbrodcastreciever;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.AudioManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.telecom.TelecomManager;
@@ -10,13 +9,12 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-
-import static android.content.Context.MODE_PRIVATE;
 
 
 public class PhoneCallStateListener extends PhoneStateListener {
@@ -35,7 +33,7 @@ public class PhoneCallStateListener extends PhoneStateListener {
     public void onCallStateChanged(int state, String incomingNumber) {
         //AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        blockedNumberPrefs=context.getSharedPreferences("NOPPE_CALL_BLOCKING_PREFFS", Context.MODE_WORLD_READABLE);
+        blockedNumberPrefs=context.getSharedPreferences("NOPPE_CALL_BLOCKING_PREFFS", Context.MODE_PRIVATE);
 
 
         switch (state) {
