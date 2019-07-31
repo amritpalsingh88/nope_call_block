@@ -3,7 +3,8 @@
     package="com.example.callblockingbrodcastreciever">
 
     <application>
-        <activity android:name=".BlockActivity"></activity>
+        <activity android:name=".BlockActivity"
+            android:theme="@style/Theme.AppCompat.Translucent"></activity>
 
         <receiver
             android:name="com.example.callblockingbrodcastreciever.PhoneCallReceiver"

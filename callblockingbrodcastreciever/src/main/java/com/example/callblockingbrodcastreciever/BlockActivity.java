@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -48,29 +49,66 @@ public class BlockActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_block);
 
-        startPowerSaverIntent(this);
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ANSWER_PHONE_CALLS) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
 
 
-        if (ContextCompat.checkSelfPermission(getApplicationContext(),
-                Manifest.permission.READ_PHONE_STATE)
-                != PackageManager.PERMISSION_GRANTED) {
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Permissions required!");
+            alertDialog.setMessage(getString(com.example.callblockingbrodcastreciever.R.string.app_name) + " requires permissions to block the calls.");
+            alertDialog.setCancelable(false);
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            // Should we show an explanation?
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(BlockActivity.this, Manifest.permission.ANSWER_PHONE_CALLS)
+                                    || ActivityCompat.shouldShowRequestPermissionRationale(BlockActivity.this, Manifest.permission.READ_PHONE_STATE)
+                                    || ActivityCompat.shouldShowRequestPermissionRationale(BlockActivity.this, Manifest.permission.CALL_PHONE)) {
 
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.READ_CONTACTS)) {
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ANSWER_PHONE_CALLS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CALL_LOG, Manifest.permission.CALL_PHONE},
-                        1001);
-            }
+                                AlertDialog alertDialog = new AlertDialog.Builder(BlockActivity.this).create();
+                                alertDialog.setTitle("Permissions denied!");
+                                alertDialog.setCancelable(false);
+                                alertDialog.setMessage("You have already denied the permissions, You have to allow them manually by going" +
+                                        " to the app settings.");
+                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                });
+
+                                alertDialog.show();
+
+
+                            } else {
+                                ActivityCompat.requestPermissions(BlockActivity.this,
+                                        new String[]{Manifest.permission.ANSWER_PHONE_CALLS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CALL_LOG, Manifest.permission.CALL_PHONE},
+                                        1001);
+                            }
+                        }
+                    });
+
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    });
+
+            alertDialog.show();
+
         }
+        else
+            finish();
 
         findViewById(R.id.btnCallReciever).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                blockedNumberPrefs=getSharedPreferences("NOPPE_CALL_BLOCKING_PREFFS", Context.MODE_PRIVATE);
+                blockedNumberPrefs = getSharedPreferences("NOPPE_CALL_BLOCKING_PREFFS", Context.MODE_PRIVATE);
 
-                Toast.makeText(BlockActivity.this, "list: "+blockedNumberPrefs.getString("blocked_list", ""),  Toast.LENGTH_LONG).show();
+                Toast.makeText(BlockActivity.this, "list: " + blockedNumberPrefs.getString("blocked_list", ""), Toast.LENGTH_LONG).show();
 
             }
         });
@@ -78,9 +116,9 @@ public class BlockActivity extends AppCompatActivity {
         findViewById(R.id.btnShowToast).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                blockedNumberPrefs=getSharedPreferences("NOPPE_CALL_BLOCKING_PREFFS", Context.MODE_PRIVATE);
+                blockedNumberPrefs = getSharedPreferences("NOPPE_CALL_BLOCKING_PREFFS", Context.MODE_PRIVATE);
 
-                Toast.makeText(BlockActivity.this, "list: "+blockedNumberPrefs.getString("blocked_list", ""),  Toast.LENGTH_LONG).show();
+                Toast.makeText(BlockActivity.this, "list: " + blockedNumberPrefs.getString("blocked_list", ""), Toast.LENGTH_LONG).show();
 
             }
         });
@@ -89,7 +127,7 @@ public class BlockActivity extends AppCompatActivity {
         findViewById(R.id.btnShowToast1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(BlockActivity.this, "list: ",  Toast.LENGTH_LONG).show();
+                Toast.makeText(BlockActivity.this, "list: ", Toast.LENGTH_LONG).show();
 
             }
         });
@@ -97,13 +135,15 @@ public class BlockActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
+        startPowerSaverIntent(this);
 
+    }
 
-
-
-
-//    public void callBlockScreen(View view) {
+    //    public void callBlockScreen(View view) {
 //
 //        PhoneCallReceiver receiver = new PhoneCallReceiver();
 //
@@ -112,8 +152,6 @@ public class BlockActivity extends AppCompatActivity {
 //        //startActivity(new Intent(this, BlockActivity.class));
 //
 //    }
-
-
 
 
     public void startPowerSaverIntent(final Context context) {
@@ -139,7 +177,8 @@ public class BlockActivity extends AppCompatActivity {
                     new AlertDialog.Builder(context)
                             .setTitle(Build.MANUFACTURER + " Protected Apps")
                             .setMessage(String.format("%s requires to be enabled in 'Protected Apps' to function properly.%n", context.getString(com.example.callblockingbrodcastreciever.R.string.app_name)))
-                            .setView(dontShowAgain)
+                            //.setView(dontShowAgain)
+                            .setCancelable(false)
                             .setPositiveButton("Go to settings", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
 
@@ -156,15 +195,26 @@ public class BlockActivity extends AppCompatActivity {
                                         e.printStackTrace();
                                     }
 
+                                    finish();
+
                                 }
                             })
-                            .setNegativeButton(android.R.string.cancel, null)
+                            .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            })
                             .show();
                     break;
                 }
             }
+            if(!foundCorrectIntent)
+                finish();
 
         }
+        else
+            finish();
     }
 
     private void requestAutoStartPermission() {

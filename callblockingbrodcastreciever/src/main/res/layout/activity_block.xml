@@ -4,22 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#00000000"
     tools:context=".BlockActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_centerInParent="true">
 
 
     <Button
         android:id="@+id/btnCallReciever"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Call Receiver"
-        android:layout_centerInParent="true"/>
+        android:text="Call Receiver"/>
 
     <Button
         android:id="@+id/btnShowToast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Show Toast"
-        android:layout_below="@id/btnCallReciever"
         android:layout_centerInParent="true"/>
 
     <Button
@@ -27,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Show Toast"
-        android:layout_below="@id/btnShowToast"
         android:layout_centerInParent="true"/>
 
+    </LinearLayout>
 </RelativeLayout>
