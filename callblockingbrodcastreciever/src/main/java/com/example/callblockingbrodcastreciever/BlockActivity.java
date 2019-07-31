@@ -67,19 +67,8 @@ public class BlockActivity extends AppCompatActivity {
                                     || ActivityCompat.shouldShowRequestPermissionRationale(BlockActivity.this, Manifest.permission.READ_PHONE_STATE)
                                     || ActivityCompat.shouldShowRequestPermissionRationale(BlockActivity.this, Manifest.permission.CALL_PHONE)) {
 
-                                AlertDialog alertDialog = new AlertDialog.Builder(BlockActivity.this).create();
-                                alertDialog.setTitle("Permissions denied!");
-                                alertDialog.setCancelable(false);
-                                alertDialog.setMessage("You have already denied the permissions, You have to allow them manually by going" +
+                                showAlert("Permissions denied!", "You have already denied the permissions, You have to allow them manually by going" +
                                         " to the app settings.");
-                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                    }
-                                });
-
-                                alertDialog.show();
 
 
                             } else {
@@ -101,7 +90,7 @@ public class BlockActivity extends AppCompatActivity {
 
         }
         else
-            finish();
+            showAlert("Working already!", "Call blocking already working in your app.");
 
         findViewById(R.id.btnCallReciever).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +122,21 @@ public class BlockActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void showAlert(String title, String message) {
+        AlertDialog alertDialog = new AlertDialog.Builder(BlockActivity.this).create();
+        alertDialog.setTitle(title);
+        alertDialog.setCancelable(false);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+
+        alertDialog.show();
     }
 
     @Override
