@@ -4,6 +4,7 @@
 
     <application>
         <activity android:name=".BlockActivity"
+            android:configChanges="orientation"
             android:theme="@style/Theme.AppCompat.Translucent"></activity>
 
         <receiver

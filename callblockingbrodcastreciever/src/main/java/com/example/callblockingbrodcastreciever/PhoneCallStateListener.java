@@ -83,7 +83,6 @@ public class PhoneCallStateListener extends PhoneStateListener {
                             telephonyService.endCall();
                         }
 
-                        Toast.makeText(context, "Blocked: "+ incomingNumber , Toast.LENGTH_LONG).show();
                     }
                 } catch (Exception e) {
                     Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();

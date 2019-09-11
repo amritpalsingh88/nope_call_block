@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Permissions required!"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"/>
+
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="We'll need access to manage phone calls in order to limit robocallers. Please approve:"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/black"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tvCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancel"
+            android:textSize="15sp"
+            android:background="#f0f0f0"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:padding="10dp"
+            />
+
+        <View
+            android:layout_width=".5dp"
+            android:layout_height="match_parent"
+            />
+
+        <TextView
+            android:id="@+id/tvOk"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Go to settings"
+            android:textSize="15sp"
+            android:textColor="@android:color/white"
+            android:background="@android:color/black"
+            android:gravity="center"
+            android:padding="10dp"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
