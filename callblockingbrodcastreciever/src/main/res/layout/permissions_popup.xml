@@ -9,10 +9,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Permissions required!"
+        android:fontFamily="@font/aller_bold"
         android:textSize="20sp"
         android:padding="10dp"
-        android:textColor="@android:color/black"
-        android:textStyle="bold"/>
+        android:textColor="@android:color/black"/>
 
 
     <TextView
@@ -21,6 +21,7 @@
         android:gravity="center"
         android:text="We'll need access to manage phone calls in order to limit robocallers. Please approve:"
         android:padding="10dp"
+        android:fontFamily="@font/aller_ragular"
         android:layout_marginTop="10dp"
         android:textColor="@android:color/black"/>
 
@@ -38,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Cancel"
+            android:fontFamily="@font/aller_bold"
             android:textSize="15sp"
             android:background="#f0f0f0"
             android:textColor="@android:color/black"
@@ -56,6 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Ok"
+            android:fontFamily="@font/aller_bold"
             android:textSize="15sp"
             android:textColor="@android:color/white"
             android:background="@android:color/black"

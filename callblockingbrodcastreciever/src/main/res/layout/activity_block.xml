@@ -20,12 +20,14 @@
         android:id="@+id/btnCallReciever"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/aller_bold"
         android:text="Call Receiver"/>
 
     <Button
         android:id="@+id/btnShowToast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/aller_bold"
         android:text="Show Toast"
         android:layout_centerInParent="true"/>
 
@@ -33,6 +35,7 @@
         android:id="@+id/btnShowToast1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/aller_bold"
         android:text="Show Toast"
         android:layout_centerInParent="true"/>
 

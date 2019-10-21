@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:padding="10dp"
-        android:textColor="@android:color/black"
-        android:textStyle="bold"/>
+        android:fontFamily="@font/aller_bold"
+        android:textColor="@android:color/black"/>
 
 
     <TextView
@@ -21,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:fontFamily="@font/aller_ragular"
         android:padding="10dp"
         android:textColor="@android:color/black" />
 
@@ -33,6 +34,7 @@
         android:layout_weight="1"
         android:background="@android:color/black"
         android:gravity="center"
+        android:fontFamily="@font/aller_bold"
         android:padding="10dp"
         android:text="Ok"
         android:textColor="@android:color/white"
